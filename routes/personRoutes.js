@@ -4,6 +4,8 @@ import Person from "../models/Person.js";
 
 // post router to add a person
 
+// comment adding for testing purposes
+
 router.post("/", async (req, res) => {
   console.log(req.body);
   const person = new Person(req.body);
