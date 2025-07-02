@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-const mongoURL = process.env.MONGO_URL || process.env.MONGO_URL_LOCAL;
+const mongoURL = process.env.MONGO_URL_LOCAL;
 
 // Connect to MongoDB using Mongoose
 mongoose.connect(mongoURL);

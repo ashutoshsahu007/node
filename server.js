@@ -3,6 +3,9 @@ import express from "express";
 import dotenv from "dotenv";
 import db from "./db.js"; // Assuming db.js sets up the database connection
 import personRoutes from "./routes/personRoutes.js";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import Person from "./models/Person.js";
 
 // Configure environment variables
 dotenv.config();
@@ -17,16 +20,47 @@ const logRequest = (req, res, next) => {
   next();
 };
 
+const logRequestWithTime = (req, res, next) => {
+  console.log(
+    `${req.method} request for '${
+      req.originalUrl
+    }' at ${new Date().toISOString()}`
+  );
+  next();
+};
+
 // Use middlewares
-app.use(logRequest); // Log all requests
+// app.use(logRequest); // Log all requests
 app.use(express.json()); // Parse JSON bodies
+
+passport.use(
+  new LocalStrategy(async (USERNAME, password, done) => {
+    try {
+      console.log(`Recieved credientials: ${USERNAME}, ${password}`);
+      const user = await Person.findOne({ username: USERNAME });
+      if (!user) {
+        return done(null, false, { message: "Incorrect username." });
+      }
+      if (user.password !== password) {
+        return done(null, false, { message: "Incorrect password." });
+      } else {
+        return done(null, user);
+      }
+    } catch (error) {
+      console.error("Error during authentication:", error);
+      return done(error);
+    }
+  })
+);
+
+// app.use(passport.initialize());
 
 // Mount routes
 app.use("/person", personRoutes);
 
 // Default route
 app.get("/", (req, res) => {
-  res.send("Kya abhishek jii");
+  res.send("Hello From Sever");
 });
 
 // Start the server
