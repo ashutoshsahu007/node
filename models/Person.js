@@ -35,13 +35,13 @@ const personSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
+  passWord: {
+    type: Number,
     required: true,
   },
 });
 
 // Create the Person model using the schema
 
-const Person = mongoose.model("Person", personSchema);
+const Person = mongoose.model("Personhhh", personSchema);
 export default Person;

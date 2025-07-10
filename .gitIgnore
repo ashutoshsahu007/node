@@ -1,4 +1,4 @@
-node_modules/
+node_modules
 .env
 
 //Yes, that's because .gitignore only prevents new files from being tracked, not ones that are already tracked by Git.

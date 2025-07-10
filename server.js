@@ -1,20 +1,19 @@
-// Import dependencies
+// 1. Import dependencies
 import express from "express";
 import dotenv from "dotenv";
-import db from "./db.js"; // Assuming db.js sets up the database connection
-import personRoutes from "./routes/personRoutes.js";
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
-import Person from "./models/Person.js";
+import passport from "./auth.js";
 
-// Configure environment variables
+// 2. Configure environment variables
 dotenv.config();
 
-// Create Express app
-const app = express();
-const PORT = process.env.PORT || 3000;
+// 3. Database connection
+import db from "./db.js"; // Assuming db.js connects to MongoDB
 
-// Middleware to log each request
+// 4. Import models and routes
+import Person from "./models/Person.js";
+import personRoutes from "./routes/personRoutes.js";
+
+// 6. Custom middleware functions (if needed)
 const logRequest = (req, res, next) => {
   console.log(`${req.method} request for '${req.originalUrl}'`);
   next();
@@ -29,41 +28,26 @@ const logRequestWithTime = (req, res, next) => {
   next();
 };
 
-// Use middlewares
-// app.use(logRequest); // Log all requests
-app.use(express.json()); // Parse JSON bodies
+// 7. Create Express app
+const app = express();
+const PORT = process.env.PORT || 3000;
+const localAuthMiddleWare = passport.authenticate("local", { session: false });
 
-passport.use(
-  new LocalStrategy(async (USERNAME, password, done) => {
-    try {
-      console.log(`Recieved credientials: ${USERNAME}, ${password}`);
-      const user = await Person.findOne({ username: USERNAME });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username." });
-      }
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect password." });
-      } else {
-        return done(null, user);
-      }
-    } catch (error) {
-      console.error("Error during authentication:", error);
-      return done(error);
-    }
-  })
-);
+// 8. Use middleware
+// app.use(logRequest);
+app.use(express.json());
+app.use(passport.initialize());
+app.use(localAuthMiddleWare);
 
-// app.use(passport.initialize());
-
-// Mount routes
+// 9. Mount routes
 app.use("/person", personRoutes);
 
-// Default route
+// 10. Default route with auth
 app.get("/", (req, res) => {
-  res.send("Hello From Sever");
+  res.send("Hello From Server");
 });
 
-// Start the server
+// 11. Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
