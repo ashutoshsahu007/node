@@ -1,9 +1,3 @@
-Awesome! Here's a **Notion-style daily tracker** for your 1-month backend learning plan. You can copy this structure into your own Notion workspace or Google Sheets.
-
----
-
-## ✅ **Backend Development 1-Month Tracker**
-
 ### 📅 Week 1: Node.js & Express Basics
 
 | Day   | Task                                                        | Done |
@@ -59,5 +53,3 @@ Awesome! Here's a **Notion-style daily tracker** for your 1-month backend learni
 | Day 28 | Start applying to jobs.                        | ⬜   |
 | Day 29 | Revise, polish projects.                       | ⬜   |
 | Day 30 | Mock interview / share resume with mentors.    | ⬜   |
-
----

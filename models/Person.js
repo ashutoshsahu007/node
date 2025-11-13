@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-// Define the schema for the Person model
-
 const personSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -40,8 +38,6 @@ const personSchema = new mongoose.Schema({
     required: true,
   },
 });
-
-// Create the Person model using the schema
 
 const Person = mongoose.model("Personhhh", personSchema);
 export default Person;

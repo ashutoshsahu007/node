@@ -10,7 +10,6 @@ dotenv.config();
 import db from "./db.js"; // Assuming db.js connects to MongoDB
 
 // 4. Import models and routes
-import Person from "./models/Person.js";
 import personRoutes from "./routes/personRoutes.js";
 
 // 6. Custom middleware functions (if needed)

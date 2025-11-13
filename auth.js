@@ -1,13 +1,13 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import Person from "./models/Person.js";
+import Personn from "./models/Person.js";
 
 // 5. Passport strategy setup
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
       console.log(`Received credentials: ${username}, ${password}`);
-      const user = await Person.findOne({ userName: username });
+      const user = await Personn.findOne({ userName: username });
       if (!user) {
         console.log("incorrect username ");
         return done(null, false, { message: "Incorrect username." });
